@@ -43,9 +43,23 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 			define( 'DG_SLIDER_URL', plugin_dir_url( __FILE__ ) );
 			define( 'DG_SLIDER_VERSION', '1.0.0' );
 		}
+
+		public static function activate(): void {
+			update_option( 'rewrite_rules', '' );
+		}
+
+		public static function deadctivate(): void {
+			flush_rewrite_rules();
+		}
+
+		public static function uninstall(): void {
+		}
 	}
 }
 
 if ( class_exists( 'DG_Slider' ) ) {
+	register_activation_hook( __FILE__, array( 'DG_Slider', 'activate' ) );
+	register_deactivation_hook( __FILE__, array( 'DG_Slider', 'deactivate' ) );
+	register_uninstall_hook( __FILE__, array( 'DG_Slider', 'uninstall' ) );
 	$dg_slider = new DG_Slider();
 }

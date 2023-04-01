@@ -36,6 +36,9 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 	class DG_Slider {
 		public function __construct() {
 			$this->define_constants();
+
+			require_once (DG_SLIDER_PATH . 'post-types/DG_Slider_Post_Type.php');
+			$DG_Slider_Post_Type = new DG_Slider_Post_Type();
 		}
 
 		public function define_constants(): void {
@@ -50,6 +53,7 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 
 		public static function deadctivate(): void {
 			flush_rewrite_rules();
+			unregister_post_type('dg-slider');
 		}
 
 		public static function uninstall(): void {

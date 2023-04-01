@@ -30,4 +30,22 @@ along with MV Slider. If not, see {URI to Plugin License}.
 */
 
 // The following line prevents direct access to the plugin file.
-defined('ABSPATH') or die('Direct access not allowed.');
+defined( 'ABSPATH' ) or die( 'Direct access not allowed.' );
+
+if ( ! class_exists( 'DG_Slider' ) ) {
+	class DG_Slider {
+		public function __construct() {
+			$this->define_constants();
+		}
+
+		public function define_constants(): void {
+			define( 'DG_SLIDER_PATH', plugin_dir_path( __FILE__ ) );
+			define( 'DG_SLIDER_URL', plugin_dir_url( __FILE__ ) );
+			define( 'DG_SLIDER_VERSION', '1.0.0' );
+		}
+	}
+}
+
+if ( class_exists( 'DG_Slider' ) ) {
+	$dg_slider = new DG_Slider();
+}

@@ -47,6 +47,7 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 		}
 
 		public function add_inner_meta_boxes( $post ): void {
+			require_once (DG_SLIDER_PATH . 'views/DG_Slider_Metabox.php');
 		}
 	}
 }

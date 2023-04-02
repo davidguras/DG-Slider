@@ -52,6 +52,30 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 		}
 
 		public function save_post( $post_id ): void {
+			// nonce is set and matching
+			if ( isset( $_POST[ 'dg_slider_nonce' ] ) && ! wp_verify_nonce( $_POST[ 'dg_slider_nonce' ],
+					'dg_slider_nonce' ) ) {
+				return;
+			}
+
+			// autosave cannot save to the DB
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			// correct screen for custom post-type
+			if ( isset( $_POST[ 'post_type' ] ) && $_POST[ 'post_type' ] === 'dg-slider' ) {
+				// check if user can edit page
+				if ( ! current_user_can( 'edit_page', $post_id ) ) {
+					return;
+				}
+
+				// check if user can edit post
+				if ( ! current_user_can( 'edit_post', $post_id ) ) {
+					return;
+				}
+			}
+
 			if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] === 'editpost' ) {
 				$old_link_text = get_post_meta( $post_id, 'dg_slider_link_text', true );
 				$new_link_text = sanitize_text_field( $_POST[ 'dg_slider_link_text' ] );

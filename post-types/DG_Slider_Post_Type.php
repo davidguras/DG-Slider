@@ -5,6 +5,7 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 		public function __construct() {
 			add_action( 'init', array( $this, 'create_post_type' ) );
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
 		}
 
 		public function create_post_type(): void {
@@ -47,7 +48,28 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 		}
 
 		public function add_inner_meta_boxes( $post ): void {
-			require_once (DG_SLIDER_PATH . 'views/DG_Slider_Metabox.php');
+			require_once( DG_SLIDER_PATH . 'views/DG_Slider_Metabox.php' );
+		}
+
+		public function save_post( $post_id ): void {
+			if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] === 'editpost' ) {
+				$old_link_text = get_post_meta( $post_id, 'dg_slider_link_text', true );
+				$new_link_text = sanitize_text_field( $_POST[ 'dg_slider_link_text' ] );
+				$old_link_url  = get_post_meta( $post_id, 'dg_slider_link_url', true );
+				$new_link_url  = sanitize_text_field( $_POST[ 'dg_slider_link_url' ] );
+
+				if ( empty( $new_link_text ) ) {
+					update_post_meta( $post_id, 'dg_slider_link_text', 'Add some text' );
+				} else {
+					update_post_meta( $post_id, 'dg_slider_link_text', $new_link_text, $old_link_text );
+				}
+
+				if ( empty( $new_link_url ) ) {
+					update_post_meta( $post_id, 'dg_slider_link_url', '#' );
+				} else {
+					update_post_meta( $post_id, 'dg_slider_link_url', $new_link_text, $old_link_text );
+				}
+			}
 		}
 	}
 }

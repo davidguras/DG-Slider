@@ -1,3 +1,9 @@
+<?php
+
+$link_text = get_post_meta( $post->ID, 'dg_slider_link_text', true );
+$link_url  = get_post_meta( $post->ID, 'dg_slider_link_url', true );
+?>
+
 <table class="form-table mv-slider-metabox">
 	<tr>
 		<th>
@@ -9,7 +15,7 @@
 				name="dg_slider_link_text"
 				id="dg_slider_link_text"
 				class="regular-text link-text"
-				value=""
+				value="<?= esc_html( $link_text ?? 'Enter some text' ) ?>"
 				required
 			>
 		</td>
@@ -24,7 +30,7 @@
 				name="dg_slider_link_url"
 				id="dg_slider_link_url"
 				class="regular-text link-url"
-				value=""
+				value="<?= esc_url( $link_url ?? '#' ) ?>"
 				required
 			>
 		</td>

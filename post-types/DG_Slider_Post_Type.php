@@ -67,7 +67,7 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 				if ( empty( $new_link_url ) ) {
 					update_post_meta( $post_id, 'dg_slider_link_url', '#' );
 				} else {
-					update_post_meta( $post_id, 'dg_slider_link_url', $new_link_text, $old_link_text );
+					update_post_meta( $post_id, 'dg_slider_link_url', $new_link_url, $old_link_url );
 				}
 			}
 		}

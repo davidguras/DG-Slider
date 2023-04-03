@@ -71,6 +71,24 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 				array( $this, 'dg_slider_settings_page' ),
 				'dashicons-images-alt2',
 			);
+
+			add_submenu_page(
+				'dg_slider_admin',
+				'Manage Slides',
+				'Manage Slides',
+				'manage_options',
+				'edit.php?post_type=dg-slider',
+				null,
+			);
+
+			add_submenu_page(
+				'dg_slider_admin',
+				'Add New Slide',
+				'Add New Slide',
+				'manage_options',
+				'post-new.php?post_type=dg-slider',
+				null,
+			);
 		}
 
 		public function dg_slider_settings_page(): void {

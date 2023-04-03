@@ -37,7 +37,10 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 		public function __construct() {
 			$this->define_constants();
 
-			require_once (DG_SLIDER_PATH . 'post-types/DG_Slider_Post_Type.php');
+			// add plugin menu item in WordPress dashboard
+			add_action( 'admin_menu', array( $this, 'add_menu' ) );
+
+			require_once( DG_SLIDER_PATH . 'post-types/DG_Slider_Post_Type.php' );
 			$DG_Slider_Post_Type = new DG_Slider_Post_Type();
 		}
 
@@ -53,10 +56,25 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 
 		public static function deadctivate(): void {
 			flush_rewrite_rules();
-			unregister_post_type('dg-slider');
+			unregister_post_type( 'dg-slider' );
 		}
 
 		public static function uninstall(): void {
+		}
+
+		public function add_menu(): void {
+			add_menu_page(
+				'DG Slider Options',
+				'DG Slider',
+				'manage_options',
+				'dg_slider_admin',
+				array( $this, 'dg_slider_settings_page' ),
+				'dashicons-images-alt2',
+			);
+		}
+
+		public function dg_slider_settings_page(): void {
+			echo '<img src="https://media.tenor.com/5aE5T7edBz4AAAAM/the-simpsons-homer-simpson.gif" alt="Homer fading into grass">';
 		}
 	}
 }

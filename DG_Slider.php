@@ -42,6 +42,9 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 
 			require_once( DG_SLIDER_PATH . 'post-types/DG_Slider_Post_Type.php' );
 			$DG_Slider_Post_Type = new DG_Slider_Post_Type();
+
+			require_once( DG_SLIDER_PATH . '/DG_Slider_Settings.php' );
+			$DG_Slider_Settings = new DG_Slider_Settings();
 		}
 
 		public function define_constants(): void {
@@ -92,7 +95,7 @@ if ( ! class_exists( 'DG_Slider' ) ) {
 		}
 
 		public function dg_slider_settings_page(): void {
-			echo '<img src="https://media.tenor.com/5aE5T7edBz4AAAAM/the-simpsons-homer-simpson.gif" alt="Homer fading into grass">';
+			require_once( DG_SLIDER_PATH . 'views/settings-page.php' );
 		}
 	}
 }

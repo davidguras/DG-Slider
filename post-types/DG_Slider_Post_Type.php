@@ -6,6 +6,9 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 			add_action( 'init', array( $this, 'create_post_type' ) );
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+			add_filter( 'manage_dg-slider_posts_columns', array( $this, 'dg_slider_cpt_columns' ) );
+			add_action( 'manage_dg-slider_posts_custom_column', array( $this, 'dg_slider_custom_columns' ), 10, 2 );
+			add_filter( 'manage_edit-dg-slider_sortable_columns', array( $this, 'dg_slider_sortable_columns' ) );
 		}
 
 		public function create_post_type(): void {
@@ -34,6 +37,30 @@ if ( ! class_exists( 'DG_Slider_Post_Type' ) ) {
 					'menu_icon'           => 'dashicons-images-alt2',
 				)
 			);
+		}
+
+		public function dg_slider_cpt_columns( $columns ): array {
+			$columns[ 'dg_slider_link_text' ] = esc_html__( 'Link Text', 'dg-slider' );
+			$columns[ 'dg_slider_link_url' ]  = esc_html__( 'Link URL', 'dg-slider' );
+
+			return $columns;
+		}
+
+		public function dg_slider_custom_columns( $column, $post_id ): void {
+			switch ( $column ) {
+				case 'dg_slider_link_text':
+					echo esc_html( get_post_meta( $post_id, 'dg_slider_link_text', true ) );
+					break;
+				case 'dg_slider_link_url':
+					echo esc_url( get_post_meta( $post_id, 'dg_slider_link_url', true ) );
+					break;
+			}
+		}
+
+		public function dg_slider_sortable_columns( $columns ): array {
+			$columns[ 'dg_slider_link_text' ] = 'dg_slider_link_text';
+			$columns[ 'dg_slider_link_url' ] = 'dg_slider_link_url';
+			return $columns;
 		}
 
 		public function add_meta_boxes(): void {

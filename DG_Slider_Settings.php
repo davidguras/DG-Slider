@@ -49,6 +49,14 @@ if ( ! class_exists( "DG_Slider_Settings" ) ) {
 				'dg_slider_page2',
 				'dg_slider_second_section'
 			);
+
+			add_settings_field(
+				'dg_slider_style',
+				'Slider Style',
+				array( $this, 'dg_slider_style_callback' ),
+				'dg_slider_page2',
+				'dg_slider_second_section'
+			);
 		}
 
 		public function dg_slider_shorcode_callback(): void {
@@ -82,6 +90,25 @@ if ( ! class_exists( "DG_Slider_Settings" ) ) {
 				?>
 			/>
 			<label for="dg_slider_bullets">Display bullets</label>
+			<?php
+		}
+
+		public function dg_slider_style_callback(): void {
+			?>
+			<select
+				id="dg_slider_style"
+				name="dg_slider_options[dg_slider_style]">
+				<option value="style-1"
+					<?php
+					isset( self::$options[ 'dg_slider_style' ] ) ? selected( 'style-1',
+						self::$options[ 'dg_slider_style' ], true ) : ''; ?>>Style-1
+				</option>
+				<option value="style-2"
+					<?php
+					isset( self::$options[ 'dg_slider_style' ] ) ? selected( 'style-2',
+						self::$options[ 'dg_slider_style' ], true ) : ''; ?>>Style-2
+				</option>
+			</select>
 			<?php
 		}
 	}

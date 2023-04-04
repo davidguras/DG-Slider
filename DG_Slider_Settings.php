@@ -39,7 +39,10 @@ if ( ! class_exists( "DG_Slider_Settings" ) ) {
 				'Slider Title',
 				array( $this, 'dg_slider_title_callback' ),
 				'dg_slider_page2',
-				'dg_slider_second_section'
+				'dg_slider_second_section',
+				array(
+					'label_for' => 'dg_slider_title',
+				)
 			);
 
 			add_settings_field(
@@ -47,7 +50,10 @@ if ( ! class_exists( "DG_Slider_Settings" ) ) {
 				'Display Bullets',
 				array( $this, 'dg_slider_bullets_callback' ),
 				'dg_slider_page2',
-				'dg_slider_second_section'
+				'dg_slider_second_section',
+				array(
+					'label_for' => 'dg_slider_bullets',
+				)
 			);
 
 			add_settings_field(
@@ -55,7 +61,14 @@ if ( ! class_exists( "DG_Slider_Settings" ) ) {
 				'Slider Style',
 				array( $this, 'dg_slider_style_callback' ),
 				'dg_slider_page2',
-				'dg_slider_second_section'
+				'dg_slider_second_section',
+				array(
+					'items'     => array(
+						'style-1',
+						'style-2',
+					),
+					'label_for' => 'dg_slider_style',
+				)
 			);
 		}
 
@@ -93,21 +106,24 @@ if ( ! class_exists( "DG_Slider_Settings" ) ) {
 			<?php
 		}
 
-		public function dg_slider_style_callback(): void {
+		public function dg_slider_style_callback( $args ): void {
 			?>
 			<select
 				id="dg_slider_style"
 				name="dg_slider_options[dg_slider_style]">
-				<option value="style-1"
-					<?php
-					isset( self::$options[ 'dg_slider_style' ] ) ? selected( 'style-1',
-						self::$options[ 'dg_slider_style' ], true ) : ''; ?>>Style-1
-				</option>
-				<option value="style-2"
-					<?php
-					isset( self::$options[ 'dg_slider_style' ] ) ? selected( 'style-2',
-						self::$options[ 'dg_slider_style' ], true ) : ''; ?>>Style-2
-				</option>
+				<?php
+				foreach ( $args[ 'items' ] as $item ): ?>
+					<option value="<?= esc_attr( $item ) ?>"
+						<?php
+						isset( self::$options[ 'dg_slider_style' ] )
+							? selected( $item, self::$options[ 'dg_slider_style' ], true )
+							: '';
+						?>
+					>
+						<?= esc_html( ucfirst( $item ) ) ?>
+					</option>
+				<?php
+				endforeach; ?>
 			</select>
 			<?php
 		}
